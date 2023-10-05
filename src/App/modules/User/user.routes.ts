@@ -4,3 +4,16 @@
 - [ ]  Route: /api/v1/users/:id (PATCH)(O A)
 - [ ]  Route: /api/v1/users/:id ( DELETE)(O A)
 */
+
+import {Router} from "express";
+import {UserController} from "@/App/modules/User/user.controller";
+
+const UserRoutes = Router()
+
+UserRoutes
+    .get('/', UserController.getAllUsers)
+    .get('/:id', UserController.getSingleUser)
+    .patch('/:id')
+    .delete('/:id')
+
+export default UserRoutes
