@@ -14,6 +14,6 @@ UserRoutes
     .get('/', UserController.getAllUsers)
     .get('/:id', UserController.getSingleUser)
     .patch('/:id', UserController.updateUser)
-    .delete('/:id')
+    .delete('/:id', UserController.deleteUser)
 
 export default UserRoutes

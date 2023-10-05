@@ -47,8 +47,22 @@ const updateUser = catchAsync(async (req: Request, res: Response, next: NextFunc
     })
 })
 
+const deleteUser = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const id = z.string({
+        required_error: 'ID is required'
+    }).parse(req.params.id)
+    const data = await UserService.deleteUser(id)
+
+    sendResponse.success(res, {
+        statusCode: 200,
+        message: 'User deleted successfully',
+        data
+    })
+})
+
 export const UserController = {
     getAllUsers,
     getSingleUser,
-    updateUser
+    updateUser,
+    deleteUser
 }
