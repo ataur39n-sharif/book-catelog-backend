@@ -13,7 +13,7 @@ const UserRoutes = Router()
 UserRoutes
     .get('/', UserController.getAllUsers)
     .get('/:id', UserController.getSingleUser)
-    .patch('/:id')
+    .patch('/:id', UserController.updateUser)
     .delete('/:id')
 
 export default UserRoutes
