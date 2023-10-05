@@ -1,9 +1,12 @@
 import {config} from "dotenv";
 import path from "path";
+import {PrismaClient} from "@prisma/client";
 
 config({
     path: path.join(process.cwd(), ".env")
 })
+
+export const prisma = new PrismaClient()
 
 export default {
     port: process.env.PORT || 9000,

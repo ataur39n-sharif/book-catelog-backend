@@ -1,14 +1,22 @@
 import catchAsync from "@/Utils/helper/catchAsync";
 import {NextFunction, Request, Response} from "express";
 import {pickFunction} from "@/Utils/helper/pickFunction";
-import {UserModel} from "@/App/modules/User/user.model";
+import {prisma} from "@/Config";
+import {AuthValidation} from "@/App/modules/Auth/auth.validation";
 import CustomError from "@/Utils/errors/customErrror.class";
-import { AuthModel } from "./auth.model";
 
 const userExists = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const {email} = pickFunction(req.body, ['email'])
-    const user = await AuthModel.isUserExist('email', email)
+    const data = pickFunction(req.body, ['email', 'password'])
+    const validateData = AuthValidation.singIn.parse(data)
+    const user = await prisma.user.findUnique({
+        where: {
+            email: validateData.email
+        }
+    })
     if (!user) throw new CustomError('Invalid user', 404)
+
+    req.body.user = user
+
     next()
 })
 

@@ -1,8 +1,6 @@
-/*
-* routes
-* GET - /users => SEARCH + FILTER
-* GET - /users/:id => headers-authorization
-* PATCH - /users/:id => headers-authorization
-* PATCH - /change-password => headers-authorization
-* * DELETE - /users/:id => headers-authorization
-* */
+/* 
+- [ ]  Route: /api/v1/users (GET)(ONLY ADMIN)
+- [ ]  Route: /api/v1/users/:id (GET)(ONLY ADMIN)
+- [ ]  Route: /api/v1/users/:id (PATCH)(O A)
+- [ ]  Route: /api/v1/users/:id ( DELETE)(O A)
+*/
