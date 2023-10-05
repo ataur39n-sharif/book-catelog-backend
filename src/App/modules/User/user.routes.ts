@@ -7,13 +7,23 @@
 
 import {Router} from "express";
 import {UserController} from "@/App/modules/User/user.controller";
+import {UserMiddleware} from "@/App/modules/User/user.middlewares";
 
 const UserRoutes = Router()
 
 UserRoutes
     .get('/', UserController.getAllUsers)
-    .get('/:id', UserController.getSingleUser)
-    .patch('/:id', UserController.updateUser)
-    .delete('/:id', UserController.deleteUser)
+    .get('/:id',
+        UserMiddleware.userExists,
+        UserController.getSingleUser
+    )
+    .patch('/:id',
+        UserMiddleware.userExists,
+        UserController.updateUser
+    )
+    .delete('/:id',
+        UserMiddleware.userExists,
+        UserController.deleteUser
+    )
 
 export default UserRoutes
