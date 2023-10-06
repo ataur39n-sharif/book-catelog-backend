@@ -1,7 +1,7 @@
 import {Book, Prisma} from "@prisma/client";
 import {prisma} from "@/Config";
 import {IBook} from "@/App/modules/Book/book.types";
-import {IQueryItems} from "@/Utils/types/query.type";
+import {IQueryItems, TPaginationOptions} from "@/Utils/types/query.type";
 import {calculatePagination, manageSorting} from "@/Utils/helper/queryOptimize";
 import {BookUtils} from "@/App/modules/Book/book.utils";
 
@@ -111,13 +111,27 @@ const singleBookInfo = async (id: string) => {
     })
 }
 
-const booksByCategoryId = async (id: string) => {
-    //meta
-    return prisma.book.findMany({
+const booksByCategoryId = async (id: string, options: Partial<TPaginationOptions>) => {
+    const {page, limit, size, skip} = calculatePagination(options)
+    const data: Book[] = await prisma.book.findMany({
         where: {
             categoryId: id
-        }
+        },
+        skip,
+        take: limit
     })
+    const total = await prisma.book.count()
+    const meta = {
+        page,
+        size: limit,
+        total,
+        totalPage: Math.round(total / Number(limit))
+    }
+
+    return {
+        data,
+        meta
+    }
 }
 
 const newBook = async (payload: IBook): Promise<Book> => {

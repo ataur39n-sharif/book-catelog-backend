@@ -49,11 +49,16 @@ const booksByCategoryId = catchAsync(async (req: Request, res: Response, next: N
         required_error: 'ID is required'
     }).parse(req.params.categoryId)
 
-    const data = await BookService.booksByCategoryId(id)
-    sendResponse.success(res, {
+    const {
+        paginationFields
+    } = queryOptimization(req, [])
+
+    const {data, meta} = await BookService.booksByCategoryId(id, paginationFields)
+    res.status(200).json({
         statusCode: 200,
-        message: "Book fetched successfully ",
-        data
+        message: "Books fetched successfully.",
+        data,
+        meta
     })
 })
 
