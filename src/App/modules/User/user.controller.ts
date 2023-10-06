@@ -29,6 +29,22 @@ const getSingleUser = catchAsync(async (req: Request, res: Response, next: NextF
     })
 })
 
+const getUserProfile = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const payload = {
+        role: req.body.role,
+        userId: req.body.userId
+    }
+
+    const data = await UserService.getProfile(payload.userId)
+
+    sendResponse.success(res, {
+        statusCode: 200,
+        message: 'User fetched successfully',
+        data
+    })
+})
+
+
 const updateUser = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const id = z.string({
         required_error: 'ID is required'
@@ -63,6 +79,7 @@ const deleteUser = catchAsync(async (req: Request, res: Response, next: NextFunc
 export const UserController = {
     getAllUsers,
     getSingleUser,
+    getUserProfile,
     updateUser,
     deleteUser
 }

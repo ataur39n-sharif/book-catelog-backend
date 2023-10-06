@@ -7,6 +7,8 @@ import UserRoutes from "@/App/modules/User/user.routes";
 import CategoryRoutes from "@/App/modules/Category/category.routes";
 import BooksRoutes from "@/App/modules/Book/books.routes";
 import OrderRoutes from "@/App/modules/Order/order.routes";
+import {UserMiddleware} from "@/App/modules/User/user.middlewares";
+import {UserController} from "@/App/modules/User/user.controller";
 
 const rootRouter = Router()
 const docs = YAML.load(path.join(process.cwd(), "docs.yml"))
@@ -17,6 +19,7 @@ rootRouter
     .use('/categories', CategoryRoutes)
     .use('/books', BooksRoutes)
     .use('/orders', OrderRoutes)
+    .get('/profile', UserMiddleware.validateAccess, UserController.getUserProfile)
     .use('/docs', swaggerUI.serve, swaggerUI.setup(docs))
 
 
