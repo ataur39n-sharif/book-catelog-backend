@@ -3,6 +3,16 @@ import {prisma} from "@/Config";
 import {IBook} from "@/App/modules/Book/book.types";
 
 const allBooks = async (): Promise<Book[]> => {
+    //meta data
+    /*
+    *  "meta": {
+    "page": 3,
+    "size": 10,
+    "total": 95,
+    "totalPage": 10
+  },
+    * */
+    //pagination
     return prisma.book.findMany()
 }
 
@@ -15,6 +25,7 @@ const singleBookInfo = async (id: string) => {
 }
 
 const booksByCategoryId = async (id: string) => {
+    //meta
     return prisma.book.findMany({
         where: {
             categoryId: id
@@ -26,7 +37,12 @@ const newBook = async (payload: IBook): Promise<Book> => {
     return prisma.book.create({
         data: payload,
         include: {
-            category: true
+            category: {
+                select: {
+                    id: true,
+                    title: true,
+                }
+            }
         }
     })
 }
