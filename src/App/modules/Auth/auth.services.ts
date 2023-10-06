@@ -1,5 +1,5 @@
 import CustomError from "@/Utils/errors/customErrror.class";
-import {IAuthProperty, TLoginPayload} from "./auth.types";
+import {IAuthProperty, TLoginPayload, TokenPayload} from "./auth.types";
 import {prisma} from "@/Config";
 import {IUser} from "@/App/modules/User/user.types";
 import {HashHelper} from "@/Utils/helper/hashHelper";
@@ -38,9 +38,9 @@ const logIntoAccount = async (data: TLoginPayload, user: Partial<IAuthProperty>)
     const validPassword = user && await HashHelper.comparePassword(data.password as string, user.password as string)
     if (!validPassword) throw new CustomError('Invalid email or password', 401)
 
-    const tokenData = {
-        role: user.role,
-        userId: user.id
+    const tokenData: TokenPayload = {
+        role: user.role as string,
+        userId: user.id as string
     }
     const accessToken = generateToken.accessToken(tokenData)
     const refreshToken = generateToken.refreshToken(tokenData)
