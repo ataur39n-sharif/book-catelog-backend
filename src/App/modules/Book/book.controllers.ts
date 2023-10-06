@@ -5,13 +5,28 @@ import {sendResponse} from "@/Utils/helper/sendResponse";
 import {z} from "zod";
 import {pickFunction} from "@/Utils/helper/pickFunction";
 import {BookValidation} from "@/App/modules/Book/book.validations";
+import {queryOptimization} from "@/Utils/helper/queryOptimize";
 
 const allBooks = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const data = await BookService.allBooks()
-    sendResponse.success(res, {
+    const {
+        searchFields,
+        paginationFields,
+        sortFields,
+        filterFields
+    } = queryOptimization(req, ['category'], ['minPrice', 'maxPrice'])
+
+    const {data, meta} = await BookService.allBooks({
+        searchFields,
+        paginationFields,
+        sortFields,
+        filterFields
+    })
+
+    res.status(200).json({
         statusCode: 200,
         message: "Books fetched successfully.",
-        data
+        data,
+        meta
     })
 })
 

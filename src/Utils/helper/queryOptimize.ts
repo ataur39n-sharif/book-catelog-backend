@@ -6,12 +6,12 @@ import {
     TSearchOption,
     TSortOptions
 } from "@/Utils/types/query.type";
-import { pickFunction } from "@/Utils/helper/pickFunction";
-import { Request } from "express";
+import {pickFunction} from "@/Utils/helper/pickFunction";
+import {Request} from "express";
 
 export const calculatePagination = (data: Partial<TPaginationOptions>): TPaginationOptions => {
     const page = Number(data.page || 1)
-    const limit = Number(data.limit || 10)
+    const limit = Number(data.limit || data.size || 10)
     const skip = (page - 1) * limit
     return {
         page,

@@ -14,9 +14,10 @@ export type TSearchOption = {
 export type TPaginationOptions = {
     page: number;
     limit: number;
+    size?: number;
     skip: number;
 }
-export const PaginationKeys = ["page", "limit"]
+export const PaginationKeys = ["page", "limit", "size"]
 
 export type TSortOptions = {
     sortBy: string;

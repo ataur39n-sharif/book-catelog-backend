@@ -5,4 +5,6 @@ export interface IBook {
     publicationDate: string;
     price: number;
     categoryId: string;
+    category?: any;
 }
+
