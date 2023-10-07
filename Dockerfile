@@ -21,6 +21,7 @@ WORKDIR /app/src
 # for typescript build
 
 WORKDIR /app
+ENV DATABASE_URL="postgresql://postgres:B$f$5WKzXewmdb0L@db.vrfzmarpsdgmkxfeqgbh.supabase.co:5432/postgres"
 
 EXPOSE 5000
 CMD ["yarn" ,"dev"]
