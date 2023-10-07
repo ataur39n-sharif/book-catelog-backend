@@ -18,8 +18,7 @@ COPY . .
 # Set the working directory to the src directory
 WORKDIR /app/src
 
-# for typescript
-RUN prisma generate
+# for typescript build
 
 WORKDIR /app
 
