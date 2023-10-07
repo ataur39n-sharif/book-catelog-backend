@@ -8,7 +8,7 @@ WORKDIR /app
 # where available (npm@5+)
 COPY package*.json ./
 
-RUN npm install
+RUN yarn
 # If you are building your code for production
 # RUN npm install --only=production
 
@@ -19,9 +19,9 @@ COPY . .
 WORKDIR /app/src
 
 # for typescript
-RUN npm run build
+RUN #yarn build
 
 WORKDIR /app
 
 EXPOSE 9000
-CMD ["node" ,"dist/index.js"]
+CMD ["yarn" ,"dev"]
