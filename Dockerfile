@@ -19,7 +19,7 @@ COPY . .
 WORKDIR /app/src
 
 # for typescript
-RUN #yarn build
+RUN prisma generate
 
 WORKDIR /app
 
