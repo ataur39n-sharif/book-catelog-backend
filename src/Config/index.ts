@@ -9,7 +9,7 @@ config({
 export const prisma = new PrismaClient()
 
 export default {
-    port: process.env.PORT || 9000,
+    port: process.env.PORT || 5000,
     mongo_uri: process.env.MONGO_URI,
     node_env: process.env.NODE_ENV,
     bcrypt_saltRounds: process.env.BCRYPT_SALTROUND,

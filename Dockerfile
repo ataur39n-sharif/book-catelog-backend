@@ -23,5 +23,5 @@ RUN #yarn build
 
 WORKDIR /app
 
-EXPOSE 9000
+EXPOSE 5000
 CMD ["yarn" ,"dev"]
