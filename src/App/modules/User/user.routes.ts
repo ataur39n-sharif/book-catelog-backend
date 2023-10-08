@@ -8,21 +8,28 @@
 import {Router} from "express";
 import {UserController} from "@/App/modules/User/user.controller";
 import {UserMiddleware} from "@/App/modules/User/user.middlewares";
+import AccessOnly from "@/Middlewares/AccessLimit";
 
 const UserRoutes = Router()
 
 UserRoutes
-    .get('/', UserController.getAllUsers)
+    .get('/',
+        AccessOnly(['admin']),
+        UserController.getAllUsers
+    )
     .get('/:id',
         UserMiddleware.userExists,
+        AccessOnly(['admin']),
         UserController.getSingleUser
     )
     .patch('/:id',
         UserMiddleware.userExists,
+        AccessOnly(['admin']),
         UserController.updateUser
     )
     .delete('/:id',
         UserMiddleware.userExists,
+        AccessOnly(['admin']),
         UserController.deleteUser
     )
 
