@@ -8,7 +8,6 @@ import {CustomJwtPayload} from "@/Utils/types/jwtHelper.type";
 
 const AccessOnly = (accessRole: string[]) => catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers.authorization
-
     const accessToken = z.string({
         required_error: "Access token is required."
     }).parse(token)

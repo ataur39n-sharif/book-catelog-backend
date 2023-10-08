@@ -20,6 +20,7 @@ const getSingleUser = catchAsync(async (req: Request, res: Response, next: NextF
         required_error: 'ID is required'
     }).parse(req.params.id)
 
+
     const data = await UserService.singleUser(id)
 
     sendResponse.success(res, {
