@@ -1,6 +1,7 @@
 import {Category} from "@prisma/client";
 import {prisma} from "@/Config";
 import {ICategory} from "@/App/modules/Category/category.types";
+import CustomError from "@/Utils/errors/customErrror.class";
 
 const allCategories = async (): Promise<Category[]> => {
     return prisma.category.findMany()
@@ -32,12 +33,17 @@ const updateCategory = async (id: string, payload: Partial<ICategory>): Promise<
     })
 }
 
-const deleteCategory = async (id: string): Promise<Category> => {
-    return prisma.category.delete({
-        where: {
-            id
-        }
-    })
+const deleteCategory = async (id: string) => {
+    try {
+        const data = await prisma.category.delete({
+            where: {
+                id
+            }
+        })
+        return data
+    } catch (err) {
+        throw new CustomError('Something went wrong.', 400)
+    }
 }
 
 export const CategoryServices = {

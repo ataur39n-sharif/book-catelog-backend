@@ -11,6 +11,8 @@ const userExists = catchAsync(async (req: Request, res: Response, next: NextFunc
         required_error: 'ID is required'
     }).parse(req.params.id)
 
+    console.log({id})
+
     const user = await prisma.user.findUnique({
         where: {
             id

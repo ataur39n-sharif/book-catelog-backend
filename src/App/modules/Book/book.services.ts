@@ -4,6 +4,7 @@ import {IBook} from "@/App/modules/Book/book.types";
 import {IQueryItems, TPaginationOptions} from "@/Utils/types/query.type";
 import {calculatePagination, manageSorting} from "@/Utils/helper/queryOptimize";
 import {BookUtils} from "@/App/modules/Book/book.utils";
+import CustomError from "@/Utils/errors/customErrror.class";
 
 const allBooks = async (options: IQueryItems<IBook>) => {
 
@@ -159,11 +160,16 @@ const updateBook = async (id: string, payload: Partial<IBook>): Promise<Book> =>
 }
 
 const deleteBook = async (id: string) => {
-    return prisma.book.delete({
-        where: {
-            id
-        }
-    })
+    try {
+        const data = await prisma.book.delete({
+            where: {
+                id
+            }
+        })
+        return data
+    } catch (err) {
+        throw new CustomError('Something went wrong.', 400)
+    }
 }
 
 export const BookService = {

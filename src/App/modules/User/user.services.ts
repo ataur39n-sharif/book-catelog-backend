@@ -1,5 +1,6 @@
 import {prisma} from "@/Config";
 import {IUser} from "@/App/modules/User/user.types";
+import CustomError from "@/Utils/errors/customErrror.class";
 
 const allUsers = async (): Promise<IUser[]> => {
     return prisma.user.findMany({
@@ -50,11 +51,17 @@ const updateUser = async (id: string, payload: Partial<IUser>): Promise<IUser> =
 }
 
 const deleteUser = async (id: string) => {
-    return prisma.user.delete({
-        where: {
-            id
-        }
-    })
+
+    try {
+        const data = await prisma.user.delete({
+            where: {
+                id
+            }
+        })
+        return data
+    } catch (err) {
+        throw new CustomError('Something went wrong.', 400)
+    }
 }
 
 

@@ -63,6 +63,8 @@ const deleteCategory = catchAsync(async (req: Request, res: Response, next: Next
         required_error: 'ID is required'
     }).parse(req.params.id)
 
+    console.log({id})
+
     const data = await CategoryServices.deleteCategory(id)
     sendResponse.success(res, {
         statusCode: 200,
