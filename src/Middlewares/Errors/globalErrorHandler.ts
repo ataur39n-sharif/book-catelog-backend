@@ -7,6 +7,14 @@ import {ZodError} from "zod";
 import {processZodValidation} from "@/Utils/validation/zod.validation";
 import {sendResponse} from "@/Utils/helper/sendResponse";
 import config from "@/Config";
+import {
+    PrismaClientInitializationError,
+    PrismaClientKnownRequestError,
+    PrismaClientRustPanicError,
+    PrismaClientUnknownRequestError,
+    PrismaClientValidationError
+} from "@prisma/client/runtime/library";
+import {processPrismaError} from "@/Utils/validation/prisma.validation";
 
 
 const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
@@ -17,8 +25,6 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
         stack: config.node_env === "development" && err.stack ? err.stack : undefined
     }
 
-
-    // check is this ( err instanceof Error.ValidationError || err instanceof Error.CastError) working or not
     if (err instanceof Error.ValidationError || err instanceof Error.CastError) {
         const handler = processMongooseValidationError(err)
         defaultError.statusCode = handler.statusCode
@@ -32,6 +38,18 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
         defaultError.statusCode = handler.statusCode
         defaultError.message = handler.message
         defaultError.errorMessages = handler.errorMessages
+    } else if (
+        err instanceof PrismaClientUnknownRequestError ||
+        err instanceof PrismaClientKnownRequestError ||
+        err instanceof PrismaClientValidationError ||
+        err instanceof PrismaClientInitializationError ||
+        err instanceof PrismaClientRustPanicError
+    ) {
+        const {message, statusCode} = processPrismaError(err)
+        defaultError.message = message
+        defaultError.statusCode = statusCode
+
+
     }
     sendResponse.error(res, defaultError)
 }

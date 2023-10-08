@@ -5,6 +5,6 @@ export type TSingleBookOrderPayload = {
 
 export interface IOrder {
     userId: string,
-    role: 'admin' | 'customer',
+    // role: 'admin' | 'customer',
     orderedBooks: TSingleBookOrderPayload[]
 }

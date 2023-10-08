@@ -135,6 +135,7 @@ const booksByCategoryId = async (id: string, options: Partial<TPaginationOptions
 }
 
 const newBook = async (payload: IBook): Promise<Book> => {
+    console.log(payload)
     return prisma.book.create({
         data: payload,
         include: {

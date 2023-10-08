@@ -28,6 +28,7 @@ BooksRoutes
         BookController.createNewBook
     )
     .patch('/:id',
+        AccessOnly(['admin']),
         BookController.updateBook
     )
     .delete('/:id',

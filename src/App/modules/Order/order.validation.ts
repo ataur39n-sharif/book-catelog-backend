@@ -8,7 +8,7 @@ const singleBookOrderZodSchema: ZodType<TSingleBookOrderPayload> = z.object({
 
 const bookOrderZodSchema = z.object({
     userId: z.string(),
-    role: z.enum(['admin', 'customer']),
+    // role: z.enum(['admin', 'customer']),
     orderedBooks: z.array(singleBookOrderZodSchema)
 })
 
