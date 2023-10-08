@@ -23,7 +23,7 @@ BooksRoutes
     .get('/:categoryId/category',
         BookController.booksByCategoryId
     )
-    .post('/',
+    .post('/create-book',
         AccessOnly(['admin']),
         BookController.createNewBook
     )
