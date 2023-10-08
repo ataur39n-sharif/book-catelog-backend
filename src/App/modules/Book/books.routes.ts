@@ -9,15 +9,30 @@
 
 import {Router} from "express";
 import {BookController} from "@/App/modules/Book/book.controllers";
+import AccessOnly from "@/Middlewares/AccessLimit";
 
 const BooksRoutes = Router()
 
 BooksRoutes
-    .get('/', BookController.allBooks)
-    .get('/:id', BookController.singleBook)
-    .get('/:categoryId/category', BookController.booksByCategoryId)
-    .post('/', BookController.createNewBook)
-    .patch('/:id', BookController.updateBook)
-    .delete('/:id', BookController.deleteBook)
+    .get('/',
+        BookController.allBooks
+    )
+    .get('/:id',
+        BookController.singleBook
+    )
+    .get('/:categoryId/category',
+        BookController.booksByCategoryId
+    )
+    .post('/',
+        AccessOnly(['admin']),
+        BookController.createNewBook
+    )
+    .patch('/:id',
+        BookController.updateBook
+    )
+    .delete('/:id',
+        AccessOnly(['admin']),
+        BookController.deleteBook
+    )
 
 export default BooksRoutes

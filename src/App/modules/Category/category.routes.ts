@@ -8,13 +8,27 @@
 
 import {Router} from "express";
 import {CategoryController} from "@/App/modules/Category/category.controllers";
+import AccessOnly from "@/Middlewares/AccessLimit";
 
 const CategoryRoutes = Router()
 
 CategoryRoutes
-    .get('/', CategoryController.categoryList)
-    .get('/:id', CategoryController.singleCategory)
-    .post('/create-category', CategoryController.createCategory)
-    .patch('/:id', CategoryController.updateCategory)
-    .delete('/:id', CategoryController.deleteCategory)
+    .get('/',
+        CategoryController.categoryList
+    )
+    .get('/:id',
+        CategoryController.singleCategory
+    )
+    .post('/create-category',
+        AccessOnly(['admin']),
+        CategoryController.createCategory
+    )
+    .patch('/:id',
+        AccessOnly(['admin']),
+        CategoryController.updateCategory
+    )
+    .delete('/:id',
+        AccessOnly(['admin']),
+        CategoryController.deleteCategory
+    )
 export default CategoryRoutes
